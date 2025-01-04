@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        h1 {
+            color: rgb(109, 49, 165);
+            text-align: left;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            font-size: large;
+            margin: 50px 0;
+        }
+        nav {
+            background-color: rgb(109, 49, 165);
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            display: inline-block;
+            margin-right: 1%;
+        }
+        li a {
+            display: block;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 2vh 2vw;
+        }
+        li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .container {
+            margin: 30px;
+        }
+        form {
+            margin-bottom: 50px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: rgb(54, 17, 103);
+        }
+        form input[type="text"], form input[type="email"], form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgb(109, 49, 165);
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        form input[type="submit"] {
+            background-color: rgb(109, 49, 165);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        form input[type="submit"]:hover {
+            background-color: rgb(82, 29, 150);
+        }
+        .message {
+            font-size: 1.2em;
+            color: rgb(109, 49, 165);
+            margin: 20px 0;
+        }
+        .logout-button {
+            background-color: rgb(109, 49, 165);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            display: none;
+        }
+        .logout-button:hover {
+            background-color: rgb(82, 29, 150);
+        }
+    </style>
+    <title>Account</title>
+</head>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='shinelogo.png') }}">
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="/Shine/templates/index">
+                    <img src="/Shine/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                </a>
+            </li>
+            <li><a href="/Shine/templates/environment">Environment</a></li>
+            <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
+            <li><a href="/Shine/templates/exercise">Exercise</a></li>
+            <li><a href="/Shine/templates/connections">Connections</a></li>
+            {% if login_message %}
+                <li><a href="{{ usr }}">Login/Sign Up</a></li>
+            {% else %}
+                <li><a href="/Shine/templates/account">Login/Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="container">
+        <form method="post" action="/account" id="login-form">
+            <h1>Login</h1>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Log In">
+        </form>
+        <form method="post" action="/signup" id="signup-form">
+            <h1>Sign Up</h1>
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="signup_username">Username:</label>
+            <input type="text" id="signup_username" name="username" required>
+            <label for="signup_password">Password:</label>
+            <input type="password" id="signup_password" name="password" required>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+    {% if signup_message %}
+        <div class="container">
+            <p class="message">{{ signup_message }}</p>
+        </div>
+    {% endif %}
+    {% if login_message %}
+        <div class="container">
+            <p class="message">{{ login_message }}</p>
+            {% set usr = "/account?login_message=Logged+in+successfully!&official_username=" ~ request.args.get('official_username') %}
+            <button class="logout-button" id="logout-button">Log Out</button>
+        </div>
+        <script>
+            const loginForm = document.getElementById("login-form");
+            const signupForm = document.getElementById("signup-form");
+            const logoutButton = document.getElementById("logout-button");
+
+            loginForm.style.display = "none";
+            signupForm.style.display = "none";
+            logoutButton.style.display = "block";
+
+            logoutButton.addEventListener("click", () => {
+                window.location.href = "/account?logout=true";
+            });
+        </script>
+    {% endif %}
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const logoutParam = urlParams.get('logout');
+        if (logoutParam === "true") {
+            window.location.href = "/account";
+        }
+    </script>
+</body>
+</html>
