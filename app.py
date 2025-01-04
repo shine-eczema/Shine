@@ -108,7 +108,7 @@ def flare_ups():
     global login_message
     return render_template('flare_ups.html', login_message=login_message, official_username=username)
     
-@app.route('/templates/flare_ups', methods=['POST'])
+@app.route('/flare_ups', methods=['POST'])
 def receive_flareups():
     flareups = request.get_json()
     with open('flareupdatabase.txt', 'a') as file:
