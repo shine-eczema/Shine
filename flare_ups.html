@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: rgb(109, 49, 165);
+            text-align: center;
+            font-family: 'Trebuchet MS', sans-serif;
+            font-size: 4vw;
+            margin-top: 5vh;
+            margin-bottom: 0;
+        }
+
+        nav {
+            background-color: rgb(109, 49, 165);
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 1%;
+        }
+
+        li a {
+            display: block;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 2vh 2vw;
+        }
+
+        li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            margin: auto;
+            width: 80%;
+            text-align: center;
+            padding: 2vh 2%;
+        }
+
+        .info {
+            margin: auto;
+            width: 50%;
+            text-align: center;
+        }
+
+        button {
+            background-color: rgb(109, 49, 165);
+            color: white;
+            border: none;
+            padding: 1vh 2vw;
+            cursor: pointer;
+            margin-top: 4vh;
+            margin-bottom: 2vh;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            display: block;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto; /* Center aligns the button */
+        }
+
+        button:hover {
+            background-color: rgb(82, 29, 150);
+        }
+
+        p {
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode';
+            color: rgb(109, 49, 165);
+            padding: 1vh 2%;
+            text-align: center;
+        }
+
+        .img1 {
+            position: relative;
+            width: 30%;
+            margin: 2vh auto;
+            display: block;
+        }
+
+        .image {
+            width: 100%;
+            height: auto;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 1vh;
+            margin-top: 1vh;
+            font-weight: bold;
+            color: rgb(109, 49, 165)
+        }
+
+        form input[type="date"], form select {
+            width: 20%;
+            padding: 1vh;
+            margin: 1vh 0;
+            font-size: 1rem;
+            border: 1px solid rgb(109, 49, 165);
+            border-radius: 5px;
+        }
+
+        .form-button {
+            margin-top: 4vh;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+    <title>Flare-Ups</title>
+    <script>
+        var flareUps = [];
+
+        function showForm() {
+            document.getElementById("flareup-form").style.display = "block";
+            document.getElementById("record-button").style.display = "none";
+        }
+
+        function hideForm() {
+            document.getElementById("flareup-form").style.display = "none";
+            document.getElementById("record-button").style.display = "block";
+        }
+
+        function logFlareUp() {
+            var startDate = document.getElementById("start-date").value;
+            var endDate = document.getElementById("end-date").value;
+            var severity = document.getElementById("severity").value;
+
+            var flareUpData = { startDate, endDate, severity };
+            flareUps.push(flareUpData);
+            hideForm();
+            clearForm();
+            sendFlareUps();
+        }
+
+        function clearForm() {
+            document.getElementById("form").reset();
+        }
+
+        function sendFlareUps() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/flare_ups", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send(JSON.stringify(flareUps));
+        }
+    </script>
+</head>
+<body>
+    <link rel="icon" type="image/png" href="/Shine/static/shinelogo.png">
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/Shine/templates/index">
+                        <img src="/Shine/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                    </a>
+                </li>
+                <li><a href="/Shine/templates/environment">Environment</a></li>
+                <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
+                <li><a href="/Shine/templates/exercise">Exercise</a></li>
+                <li><a href="/Shine/templates/connections">Connections</a></li>
+                {% if official_username %}
+                    <li><a href="/Shine/templates/account">{{ official_username }}</a></li>
+                {% else %}
+                    <li><a href="/Shine/templates/account">Login/Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    
+    <div class="container">
+        <div id="flareup-form" class="links" style="display: none;">
+            <form id="form">
+                <label for="start-date">Start of Flare-Up:</label>
+                <input type="date" id="start-date" required>
+
+                <label for="end-date">End of Flare-Up:</label>
+                <input type="date" id="end-date" required>
+
+                <label for="severity">Severity of Flare-Up:</label>
+                <select id="severity" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+
+                <button type="button" class="form-button" onclick="logFlareUp()">Log Flare-Up</button>
+            </form>
+        </div>
+
+        <button id="record-button" onclick="showForm()">Record A Flare-Up</button>
+    </div>
+    <div class="info">
+        <p>What's a Flare-Up?</p>
+        <p>It's a return of eczema symptoms that typically include a red, itchy skin rash. You may also notice inflamed reddish-brown or gray patches, especially on your hands, feet, chest, neck, and inside the bends of your elbows and knees.</p>
+        <p>What causes a Flare-Up?</p>
+        <p>Triggers aren't the same for everyone, and there may be a lag between the trigger and the symptoms. Common triggers include: Dry skin, stress, irritants like household soaps, detergents, or perfumes.</p>
+    </div>
+    <div class="img1">
+        <img src="/Shine/static/eczema1.png" alt="Image" class="image">
+    </div>
+</body>
+</html>

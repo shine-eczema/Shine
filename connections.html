@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    body {
+        background-color: white;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    h1 {
+        color: rgb(109, 49, 165);
+        text-align: center;
+        font-family: Trebuchet MS, sans-serif;
+        font-size: 4em;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    h2 {
+        color: rgb(109, 49, 165);
+        font-size: larger;
+        font-style: oblique;
+        font-family: 'Segoe UI', sans-serif;
+        text-align: left;
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+    nav {
+        background-color: rgb(109, 49, 165);
+        text-align: center;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+            display: inline-block;
+            margin-right: 1%;
+        }
+
+    li a {
+        display: block;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 1rem;
+        color: white;
+        text-decoration: none;
+        padding: 2vh 2vw;
+        }
+
+    li a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .container {
+        margin-top: 20px;
+    }
+    .section {
+        margin-bottom: 30px;
+        margin-left: 20px;
+    }
+    .links {
+        margin-top: 10px;
+    }
+    .links a {
+        display: block;
+        color: rgb(54, 17, 103);
+        text-decoration: none;
+        margin-bottom: 10px;
+        margin-left: 20px;
+    }
+    button {
+        background-color: rgb(54, 17, 103);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin-left: 20px;
+    }
+    .container2 {
+        margin-top: -500px;
+        margin-left: 45%;
+        transform: translateX(-30%);
+        margin-bottom: 10px;
+        margin-right: 20px;
+    }
+    .chat-container {
+        display: none;
+    }
+    .chat-container.active {
+        display: block;
+    }
+    .chat-input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid rgb(54, 17, 103);
+        border-radius: 5px;
+    }
+    .chat-message {
+        background-color: rgb(54, 17, 103);
+        color: white;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+    .alert-message {
+        color: red;
+        text-align: center;
+        font-size: 1rem;
+        margin-top: 10px;
+        display: none;
+    }
+    </style>
+    <title>Connections</title>
+</head>
+    <link rel="icon" type="image/png" href="/Shine/static/shinelogo.png">
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/Shine/templates/index">
+                        <img src="/Shine/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                    </a>
+                </li>
+                <li><a href="/Shine/templates/environment">Environment</a></li>
+                <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
+                <li><a href="/Shine/templates/exercise">Exercise</a></li>
+                <li><a href="/Shine/templates/connections">Connections</a></li>
+                {% if official_username %}
+                    <li><a href="/Shine/templates/account">{{ official_username }}</a></li>
+                {% else %}
+                    <li><a href="/Shine/templates/account">Login/Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>    
+    <div class="container">
+        <div class="section">
+            <h2>Creams</h2>
+            <div class="links">
+                <a href="https://www.aveeno.com/" target="_blank">Aveeno</a>
+                <a href="https://www.cetaphil.com/" target="_blank">Cetaphil</a>
+                <a href="https://www.amazon.com/stores/page/026424EE-9C82-4F91-B2A5-632836896CE5" target="_blank">DermaCalm</a>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Clinics</h2>
+            <div class="links">
+                <a href="https://dermtech.com/find-a-specialist/" target="_blank">DermTech: Find a Specialist</a>
+                <a href="https://nationaleczema.org/eczema-doctors-near-me/" target="_blank">Find an Eczema Doctor Near You</a>
+                <a href="https://www.zocdoc.com/procedure/eczema-166" target="_blank">ZocDoc: Find Allergists</a>
+                <a href="https://go.npdermatology.com/skin-health/?gclid=CjwKCAjwp6CkBhB_EiwAlQVyxdWWCn6YDSpZ8XD0_Oczrb2uB9NwZq2pQyBa0RHeCEkL0SNNjbp2-xoCoq4QAvD_BwE" target="_blank">North Pacific Dermatology</a>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Information</h2>
+            <div class="links">
+                <a href="https://nationaleczema.org/" target="_blank">National Eczema Association</a>
+                <a href="https://www.mayoclinic.org/diseases-conditions/atopic-dermatitis-eczema/symptoms-causes/syc-20353273" target="_blank">Mayo Clinic</a>
+                <a href="https://www.webmd.com/skin-problems-and-treatments/eczema/guide/atopic-dermatitis-eczema" target="_blank">WebMD</a>
+            </div>
+        </div>
+        <div class="container2">
+            <h2>Shine Chat</h2>
+            <button id="join-chat-button">Join Shine Chat</button>
+            <div class="alert-message" id="alert-message">You must login to access chat.</div>
+            <div class="chat-container" id="chat-container">
+                <div class="chat-messages" id="chat-messages"></div>
+                <input type="text" class="chat-input" id="chat-input" placeholder="Type your message..." />
+            </div>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <script>
+    const joinChatButton = document.getElementById("join-chat-button");
+    const chatContainer = document.getElementById("chat-container");
+    const chatInput = document.getElementById("chat-input");
+    const chatMessages = document.getElementById("chat-messages");
+    const alertMessage = document.getElementById("alert-message");
+    const officialUsername = "{{ official_username }}";
+    const room = "universal_chat"; // Room name for universal chat space
+
+    const socket = io();
+
+    joinChatButton.addEventListener("click", () => {
+        if (!officialUsername) {
+            alertMessage.style.display = "block";  // Show the alert message
+            setTimeout(() => alertMessage.style.display = "none", 3000); // Hide alert after 3 seconds
+        } else {
+            socket.emit("join", { username: officialUsername, room: room });
+            chatContainer.classList.add("active");
+        }
+    });
+
+    chatInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && chatInput.value.trim() !== "") {
+            const message = chatInput.value.trim();
+            socket.emit("message", { username: officialUsername, room: room, message: message });
+            chatInput.value = "";
+        }
+    });
+
+    socket.on("user_join", (data) => {
+        const { username } = data;
+        const joinMessage = `${username} has joined the chat.`;
+        displayMessage(joinMessage);
+    });
+
+    socket.on("user_leave", (data) => {
+        const { username } = data;
+        const leaveMessage = `${username} has left the chat.`;
+        displayMessage(leaveMessage);
+    });
+
+    socket.on("new_message", (data) => {
+        const { username, message } = data;
+        const formattedMessage = `${username}: ${message}`;
+        displayMessage(formattedMessage);
+    });
+
+    function displayMessage(message) {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = message;
+        messageElement.classList.add("chat-message");
+        chatMessages.appendChild(messageElement);
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: rgb(109, 49, 165);
+            text-align: center;
+            font-family: Trebuchet MS, sans-serif;
+            font-size: 4vw;
+            margin-top: 5vh;
+            margin-bottom: 0;
+        }
+
+        h3 {
+            color: rgb(109, 49, 165);
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 2vw;
+            text-align: center;
+            margin-top: 0.5vh;
+            margin-bottom: 5vh;
+            font-style: italic;
+        }
+
+        h2 {
+            color: rgb(109, 49, 165);
+            font-size: 1.5vw;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            margin-top: 1vh;
+            transform: translateY(2vh);
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        p {
+            font-family: 'Segoe UI', sans-serif;
+            color: rgb(109, 49, 165);
+            padding: 1vh 2%;
+            text-align: center;
+            margin-top: 2vh;
+            transform: translateY(5vh);
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        nav {
+            background-color: rgb(109, 49, 165);
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 1%;
+        }
+
+        li a {
+            display: block;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 2vh 2vw;
+        }
+
+        li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            margin: auto;
+            width: 50%;
+            text-align: center;
+        }
+
+        .green-button {
+            background-color: rgb(109, 49, 165);
+            color: white;
+            border: none;
+            padding: 1vh 2vw;
+            cursor: pointer;
+            margin-top: 2vh;
+            margin-bottom: 4vh;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin: 0;
+            padding: 5vh 2%;
+            background-color: white;
+        }
+
+        .content-section {
+            margin-top: 5vh;
+        }
+
+        .appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            alert("Location shared!");
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            var formData = new FormData();
+            formData.append('latitude', latitude);
+            formData.append('longitude', longitude);
+
+            fetch('/transfer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Latitude: " + data.latitude + "\nLongitude: " + data.longitude);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+        function onScroll() {
+            const elements = document.querySelectorAll('h2, p');
+            elements.forEach((element) => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) { // Slight buffer for earlier visibility
+                    element.classList.add('appear');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', onScroll);
+    </script>
+</head>
+<body>
+    <link rel="icon" type="image/png" href="/Shine/static/shinelogo.png">
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/Shine/templates/index">
+                        <img src="/Shine/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                    </a>
+                </li>
+                <li><a href="/Shine/templates/environment">Environment</a></li>
+                <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
+                <li><a href="/Shine/templates/exercise">Exercise</a></li>
+                <li><a href="/Shine/templates/connections">Connections</a></li>
+                {% if official_username %}
+                    <li><a href="/Shine/templates/account">{{ official_username }}</a></li>
+                {% else %}
+                    <li><a href="/Shine/templates/account">Login/Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    
+    <div class="hero-section">
+        <h1>Shine</h1>
+        <h3>Putting a Smile on Eczema Skin</h3>
+    </div>
+    <img src="/Shine/static/purpleorchid.png" alt="Purple Orchid" style="width: 30%; margin: 2vh auto; display: block;">
+    <div class="content-section">
+        <div class="container">
+            <div class="about-shine">
+                <h2><b>Shine is a website to help people with eczema.</b></h2>
+                <p>Eczema is a chronic condition that causes dry, itchy, and inflamed skin. <b>1 in 10</b> teenagers have some form of eczema in the United States. Atopic Dermatitis, the most common kind of eczema, affects about <b>10 million kids</b> under the age of 18! There are seven types of eczema, and most teenagers develop more than one.</p>
+                <h2><b>Atopic Dermatitis affects 10 million children.</b></h2>
+                <p>The variants range from small circular patches on skin, reactions to metals and substances, <b>big rashes</b>, extreme blisters, dry skin, and <b>inflammation</b>, according to the <b>National Eczema Association</b> (NEA). These are not the only effects of eczema. The NEA further explains the phenomenon of sweat: “When body temperature rises, the sympathetic nerves system stimulates the eccrine sweat glands to secrete water to the skin surface, where it cools the body by evaporation.”</p>
+                <h2><b>80% of children with Atopic Dermatitis experience insomnia.</b></h2>
+                <p><b>As the sweat evaporates, the skin dries out and is left with a salty residue that can irritate eczema skin and bring on the itch</b>. In return, 56.3% of eczema patients are likely to not participate in sports or get enough physical activity due to sweating. The physical wellness of these patients is impacted greatly because they are <b>prone to being overweight or obese</b>.</p>
+                <button class="green-button" onclick="getLocation()">Allow Location Access</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

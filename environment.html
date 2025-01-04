@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: rgb(109, 49, 165);
+            text-align: center;
+            font-family: Trebuchet MS, sans-serif;
+            font-size: 4vw;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+        }
+
+        p {
+            font-family: 'Segoe UI', sans-serif;
+            color: rgb(109, 49, 165);
+            padding: 1vh 2%;
+            text-align: center;
+            font-size: 2vw;
+        }
+
+        nav {
+            background-color: rgb(109, 49, 165);
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 1%;
+        }
+
+        li a {
+            display: block;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 2vh 2vw;
+        }
+
+        li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+            gap: 2%;
+            width: 90%;
+            margin: 5vh auto;
+        }
+
+        .box {
+            background-color: rgb(230, 230, 250); /* Light lavender color */
+            border: 2px solid rgb(109, 49, 165);
+            border-radius: 1vh;
+            padding: 2vh;
+            text-align: center;
+        }
+    </style>
+    <title>Environment</title>
+</head>
+    <link rel="icon" type="image/png" href="/Shine/static/shinelogo.png">
+    <body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/Shine/templates/index">
+                        <img src="/Shine/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                    </a>
+                </li>
+                <li><a href="/Shine/templates/environment">Environment</a></li>
+                <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
+                <li><a href="/Shine/templates/exercise">Exercise</a></li>
+                <li><a href="/Shine/templates/connections">Connections</a></li>
+                {% if official_username %}
+                    <li><a href="/Shine/templates/account">{{ official_username }}</a></li>
+                {% else %}
+                    <li><a href="/Shine/templates/account">Login/Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>    
+<div class="container">
+    <div class="box">
+        <p>The current UV index is: <b>{{ outputs[0] }}</b></p>
+    </div>
+    <div class="box">
+        <p>The current temperature is: <b>{{ outputs[1] }}°F</b></p>
+    </div>
+    <div class="box">
+        <p>The current humidity is <b>{{ outputs[2] }}%</b></p>
+    </div>
+    <div class="box">
+        <p>The current tree pollen level is {{ outputs[3] }} or <b>{{ tgwm[0] }}</b></p>
+    </div>
+    <div class="box">
+        <p>The current grass pollen level is {{ outputs[4] }} or <b>{{ tgwm[1] }}</b></p>
+    </div>
+    <div class="box">
+        <p>The current weed pollen level is {{ outputs[5] }} or <b>{{ tgwm[2] }}</b></p>
+    </div>
+    <div class="box">
+        <p>The current mold level is {{ outputs[6] }} or <b>{{ tgwm[3] }}</b></p>
+    </div>
+    <div class="box">
+        <p>The current predominant pollen type is <b>{{ outputs[7] }}</b></p>
+    </div>
+</div>
+</body>
+</html>
