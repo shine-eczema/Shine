@@ -50,7 +50,7 @@ def handle_message(data):
     emit('new_message', {'username': username, 'message': message}, room=room)
 
 # app routes
-@app.route('/templates/')
+@app.route('/templates/index')
 def home():
     global login_message
     return render_template('index.html', login_message=login_message, official_username=username)
