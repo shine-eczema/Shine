@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: rgb(109, 49, 165);
+            text-align: center;
+            font-family: Trebuchet MS, sans-serif;
+            font-size: 4vw;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+        }
+
+        p {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+            color: rgb(109, 49, 165);
+            padding: 1vh 2%;
+            text-align: center;
+            margin: 2vh 1vh;
+            font-size: 1.2vw;
+        }
+
+        nav {
+            background-color: rgb(109, 49, 165);
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 1%;
+        }
+
+        li a {
+            display: block;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 2vh 2vw;
+        }
+
+        li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            margin: auto;
+            margin-top: 2vh;
+            width: 90%;
+            text-align: center;
+        }
+
+        .image-container {
+            margin: 5vh auto;
+            text-align: center;
+        }
+
+        .image-container img {
+            width: 40%;
+            max-width: 400px;
+            height: auto;
+        }
+    </style>
+    <title>Exercise</title>
+</head>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='shinelogo.png') }}">
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="/">
+                    <img src="{{ url_for('static', filename='shinelogo3.png') }}" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                </a>
+            </li>
+            <li><a href="/environment">Environment</a></li>
+            <li><a href="/flare_ups">Flare-Ups</a></li>
+            <li><a href="/exercise">Exercise</a></li>
+            <li><a href="/connections">Connections</a></li>
+            {% if login_message %}
+                <li><a href="{{ usr }}">Login/Sign Up</a></li>
+            {% else %}
+                <li><a href="/account">Login/Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="container">
+        <p><b>Based on current weather patterns and your past history of flare-ups, we think it is {{ exercise_report }} for a flare-up to occur.</b></p>
+        <p><b>Treating Eczema Flare-Ups</b></p>
+        <p>
+            Work with your doctor to find the right treatments for you. Your symptoms, age, family history, other health problems, and lifestyle help you find treatments that work. Most eczema treatments give you short-term relief. Your doctor can prescribe a steroid cream to stop the itch and clear your rash, or topical creams called calcineurin inhibitors like pimecrolimus (Elidel) or tacrolimus (Protopic) that protect your skin and prevent eczema outbreaks. Hydrocortisone cream is available over the counter (OTC) and eases mild itching.
+        </p>
+        <p>
+            Eucrisa ointment is a nonsteroidal anti-inflammatory topical treatment that may help reduce redness and itchiness in mild to moderate atopic dermatitis. For a severe outbreak, apply steroid cream and then wrap a wet bandage around the area to keep it moist. Light therapy from the sun or with a UV ray device at your doctor's office may ease outbreaks, too.
+        </p>
+        <p>
+            For strong eczema itching that keeps you up at night, try oral antihistamines. Diphenhydramine can stop itching and help you sleep. Cetirizine, fexofenadine, and other antihistamines can ease flares and itching but don’t make you drowsy. They’re all available OTC.
+        </p>
+        <p>
+            Your doctor may also prescribe oral corticosteroids or give you a steroid shot for a strong eczema flare. If you scratch your itchy rash and break the skin, you might need antibiotics to prevent an infection. For moderate to severe eczema that is not controlled by topical medications, or when topical medicines cannot be used, dupilumab (Dupixent) may be prescribed. This medicine is given every 2 weeks as a shot under the skin. Work with your doctor to treat your eczema. Some drugs or remedies for eczema, like steroids, can cause side effects if you use them too long or too often.
+        </p>
+    </div>
+    <div class="image-container">
+        <img src="/static/exercise1.jpg" alt="Image">
+    </div>
+</body>
+</html>

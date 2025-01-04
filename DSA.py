@@ -1,0 +1,2 @@
+def model():
+    print("Hi")
