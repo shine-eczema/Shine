@@ -50,12 +50,12 @@ def handle_message(data):
     emit('new_message', {'username': username, 'message': message}, room=room)
 
 # app routes
-@app.route('/')
+@app.route('/templates/')
 def home():
     global login_message
     return render_template('index.html', login_message=login_message, official_username=username)
 
-@app.route('/environment')
+@app.route('/templates/environment')
 def environment():
     global login_message
     global cue
@@ -79,7 +79,7 @@ def environment():
         cue = False
     return render_template('environment.html', outputs=outputs, login_message=login_message, official_username=username, tgwm = tgwm)
 
-@app.route('/exercise')
+@app.route('/templates/exercise')
 def exercise():
     global cue
     global login_message
@@ -103,12 +103,12 @@ def exercise():
     exercise_report = classify()
     return render_template('exercise.html', outputs=outputs, login_message=login_message, official_username=username, exercise_report=exercise_report)
 
-@app.route('/flare_ups')
+@app.route('/templates/flare_ups')
 def flare_ups():
     global login_message
     return render_template('flare_ups.html', login_message=login_message, official_username=username)
     
-@app.route('/flare_ups', methods=['POST'])
+@app.route('/templates/flare_ups', methods=['POST'])
 def receive_flareups():
     flareups = request.get_json()
     with open('flareupdatabase.txt', 'a') as file:
@@ -118,7 +118,7 @@ def receive_flareups():
     return 'Flare-ups received'
 
 
-@app.route('/connections')
+@app.route('/templates/connections')
 def connections():
     global login_message
     global username
@@ -136,7 +136,7 @@ def transfer():
     cue = True
     return f"Latitude: {latitude}\nLongitude: {longitude}"
 
-@app.route('/account', methods=['GET'])
+@app.route('/templates/account', methods=['GET'])
 def account():
     global login_message
     signup_message = request.args.get('signup_message')
@@ -144,7 +144,7 @@ def account():
     return render_template('account.html', signup_message=signup_message, login_message=login_message)
 
 # Handle POST request for the login form
-@app.route('/account', methods=['POST'])
+@app.route('/templates/account', methods=['POST'])
 def login():
     global login_message
     global username
