@@ -65,7 +65,8 @@ def environment():
         weedpollen = weatherbits2[2]
         mold = weatherbits2[3]
         mostpollen = weatherbits2[4]
-        outputs.extend((uv_index, temperature, humidity, treepollen, grasspollen, weedpollen, mold, mostpollen))
+        location = weatherbits2[5]
+        outputs.extend((uv_index, temperature, humidity, treepollen, grasspollen, weedpollen, mold, mostpollen, location))
         exercise_report = classify2()
         cue = False
     return render_template('environment.html', outputs=outputs, login_message=login_message, official_username=username, tgwm=tgwm)
