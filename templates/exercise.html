@@ -68,26 +68,26 @@
     </style>
     <title>Exercise</title>
 </head>
-    <link rel="icon" type="image/png" href="/Shine/static/shinelogo.png">
-    <body>
-        <nav>
-            <ul>
-                <li>
-                    <a href="/Shine/templates/index">
-                        <img src="/Shine/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
-                    </a>
-                </li>
-                <li><a href="/Shine/templates/environment">Environment</a></li>
-                <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
-                <li><a href="/Shine/templates/exercise">Exercise</a></li>
-                <li><a href="/Shine/templates/connections">Connections</a></li>
-                {% if official_username %}
-                    <li><a href="/Shine/templates/account">{{ official_username }}</a></li>
-                {% else %}
-                    <li><a href="/Shine/templates/account">Login/Sign Up</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+<link rel="icon" type="image/png" href="/static/shinelogo.png">
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="/templates/index">
+                    <img src="/static/shinelogo3.png" alt="Shine" style="height: 5vh; vertical-align: middle;">
+                </a>
+            </li>
+            <li><a href="/templates/environment">Environment</a></li>
+            <li><a href="/Shine/templates/flare_ups">Flare-Ups</a></li>
+            <li><a href="/templates/exercise">Exercise</a></li>
+            <li><a href="/templates/connections">Connections</a></li>
+            {% if official_username %}
+                <li><a href="/templates/account">{{ official_username }}</a></li>
+            {% else %}
+                <li><a href="/templates/account">Login/Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
     <div class="container">
         <h1>Based on current weather patterns and your past history of flare-ups, we think it is <b>{{ exercise_report }}</b> for a flare-up to occur.</h1>
     </div>
