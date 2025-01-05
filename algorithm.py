@@ -38,7 +38,8 @@ def pollenAPI(lat, lon):
     weedpollen = data["data"][0]["pollen_level_weed"]
     mold = data["data"][0]["mold_level"]
     mostpollen = data["data"][0]["predominant_pollen_type"]
+    location = data["data"][0]["city_name"]
 
     facts = []
-    facts.extend((treepollen, grasspollen, weedpollen, mold, mostpollen))
+    facts.extend((treepollen, grasspollen, weedpollen, mold, mostpollen, location))
     return facts
