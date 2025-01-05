@@ -117,7 +117,7 @@
             <p class="message">Logged in as {{ official_username }}</p>
             <button class="logout-button" id="logout-button">Log Out</button>
         {% else %}
-            <form method="post" action="/account" id="login-form">
+            <form method="post" action="/templates/account" id="login-form">
                 <h1>Login</h1>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
