@@ -149,7 +149,7 @@
             logoutButton.addEventListener("click", () => {
                 fetch("/logout", { method: "POST" })
                     .then(() => {
-                        window.location.href = "/account";  // Redirect to the account page after logout
+                        window.location.href = "/templates/account";  // Redirect to the account page after logout
                     })
                     .catch((error) => {
                         console.error("Logout failed:", error);
