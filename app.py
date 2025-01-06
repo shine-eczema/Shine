@@ -59,13 +59,13 @@ def environment():
         uv_index = round(weatherbits[0])
         temperature = weatherbits[1]
         humidity = weatherbits[2]
+        location = weatherbits[3]
         weatherbits2 = pollenAPI(lat, lon)
         treepollen = weatherbits2[0]
         grasspollen = weatherbits2[1]
         weedpollen = weatherbits2[2]
         mold = weatherbits2[3]
         mostpollen = weatherbits2[4]
-        location = weatherbits2[5]
         outputs.extend((uv_index, temperature, humidity, treepollen, grasspollen, weedpollen, mold, mostpollen, location))
         exercise_report = classify2()
         cue = False
