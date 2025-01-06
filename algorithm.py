@@ -17,9 +17,10 @@ def weatherbitAPI(lat, lon):
     uv_index = data["data"][0]["uv"]
     temperature = data["data"][0]["temp"]
     humidity = data["data"][0]["rh"]
+    location = data["data"][0]["city_name"]
 
     uvtehu = []
-    uvtehu.extend((uv_index, temperature, humidity))
+    uvtehu.extend((uv_index, temperature, humidity, location))
     return uvtehu
 
 # weatherbit API again
@@ -38,8 +39,7 @@ def pollenAPI(lat, lon):
     weedpollen = data["data"][0]["pollen_level_weed"]
     mold = data["data"][0]["mold_level"]
     mostpollen = data["data"][0]["predominant_pollen_type"]
-    location = data["data"][0]["city_name"]
-
+    
     facts = []
-    facts.extend((treepollen, grasspollen, weedpollen, mold, mostpollen, location))
+    facts.extend((treepollen, grasspollen, weedpollen, mold, mostpollen))
     return facts
