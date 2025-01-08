@@ -178,7 +178,7 @@
     const chatInput = document.getElementById("chat-input");
     const chatMessages = document.getElementById("chat-messages");
     const alertMessage = document.getElementById("alert-message");
-    const officialUsername = "{{ official_username|escapejs }}";
+    const officialUsername = "{{ official_username }}";
     const room = "universal_chat"; // Room name for universal chat space
 
     const socket = io();
