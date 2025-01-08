@@ -7,7 +7,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 socketio = SocketIO(app)
-returns, outputs, cue, tgwm = [], [], False, []
+returns, outputs, cue, username, login_message, tgwm = [], [], False, "", "", []
 
 def unpackflareups():
     severity_list = []
@@ -45,12 +45,12 @@ def handle_message(data):
 
 @app.route('/templates/index')
 def home():
-    login_message = session.get('login_message', '')
-    official_username = session.get('username', '')
-    return render_template('index.html', login_message=login_message, official_username=official_username)
+    global login_message
+    return render_template('index.html', login_message=login_message, official_username=username)
 
 @app.route('/templates/environment')
 def environment():
+    global login_message
     global cue
     if cue:
         lat = returns[0]
@@ -67,14 +67,14 @@ def environment():
         mold = weatherbits2[3]
         mostpollen = weatherbits2[4]
         outputs.extend((uv_index, temperature, humidity, treepollen, grasspollen, weedpollen, mold, mostpollen, location))
+        exercise_report = classify2()
         cue = False
-    login_message = session.get('login_message', '')
-    official_username = session.get('username', '')
-    return render_template('environment.html', outputs=outputs, login_message=login_message, official_username=official_username, tgwm=tgwm)
+    return render_template('environment.html', outputs=outputs, login_message=login_message, official_username=username, tgwm=tgwm)
 
 @app.route('/templates/exercise')
 def exercise():
     global cue
+    global login_message
     if cue:
         lat = returns[0]
         lon = returns[1]
@@ -91,12 +91,42 @@ def exercise():
         outputs.extend((uv_index, temperature, humidity, treepollen, grasspollen, weedpollen, mold, mostpollen))
         cue = False
     exercise_report = classify()
-    login_message = session.get('login_message', '')
-    official_username = session.get('username', '')
-    return render_template('exercise.html', outputs=outputs, login_message=login_message, official_username=official_username, exercise_report=exercise_report)
+    return render_template('exercise.html', outputs=outputs, login_message=login_message, official_username=username, exercise_report=exercise_report)
+
+@app.route('/templates/flare_ups')
+def flare_ups():
+    global login_message
+    return render_template('flare_ups.html', login_message=login_message, official_username=username)
+    
+@app.route('/templates/flare_ups', methods=['POST'])
+def receive_flareups():
+    flareups = request.get_json()
+    with open('flareupdatabase.txt', 'a') as file:
+        for flareup in flareups:
+            line = f"{flareup['startDate']},{flareup['endDate']},{flareup['severity']}\n"
+            file.write(line)
+    return 'Flare-ups received'
+
+@app.route('/templates/connections')
+def connections():
+    global login_message
+    global username
+    logged_in = 'username' in session
+    return render_template('connections.html', login_message=login_message, official_username=username, logged_in=logged_in)
+
+@app.route('/transfer', methods=['POST'])
+def transfer():
+    global returns
+    global cue
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
+    returns.extend((latitude, longitude))
+    cue = True
+    return f"Latitude: {latitude}\nLongitude: {longitude}"
 
 @app.route('/templates/account', methods=['GET'])
 def account():
+    global login_message
     signup_message = request.args.get('signup_message')
     login_message = request.args.get('login_message')
     logged_in_username = session.get('username')
@@ -107,18 +137,21 @@ def account():
 
 @app.route('/templates/account', methods=['POST'])
 def login():
+    global login_message
+    global username
     username = request.form.get('username')
     session['username'] = username
     password = request.form.get('password')
     if check_credentials(username, password):
-        session['login_message'] = 'Logged in successfully!'
-        return redirect(url_for('account'))
+        login_message = 'Logged in successfully!'
+        return redirect(url_for('account', login_message=login_message, official_username=username))
     else:
-        session['login_message'] = 'Invalid username or password. Please try again.'
-        return redirect(url_for('account'))
+        login_message = 'Invalid username or password. Please try again.'
+        return redirect(url_for('account', login_message=login_message))
 
 @app.route('/signup', methods=['POST'])
 def signup():
+    global username
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
@@ -130,7 +163,10 @@ def signup():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.clear()  # This will remove the username and login message from the session
+    global username, login_message
+    session.clear()
+    username = ""
+    login_message = ""
     return redirect(url_for('home'))
 
 def check_credentials(username, password):
