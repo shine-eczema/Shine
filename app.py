@@ -110,9 +110,9 @@ def receive_flareups():
 @app.route('/templates/connections')
 def connections():
     global login_message
-    global username
     logged_in = 'username' in session
-    return render_template('connections.html', login_message=login_message, official_username=username, logged_in=logged_in)
+    official_username = session.get('username', '')
+    return render_template('connections.html', login_message=login_message, official_username=official_username, logged_in=logged_in)
 
 @app.route('/transfer', methods=['POST'])
 def transfer():
